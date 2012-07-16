@@ -2,11 +2,11 @@
 require File.expand_path('../lib/licensario/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["TODO: Write your name"]
-  gem.email         = ["TODO: Write your email address"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.authors       = ["Marcelo Wiermann"]
+  gem.email         = ["marcelo.wiermann@gmail.com"]
+  gem.description   = %q{Licensario SDK}
+  gem.summary       = %q{Licensario SDK}
+  gem.homepage      = "www.licensario.com"
 
   gem.add_development_dependency('rspec')
 
