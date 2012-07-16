@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["marcelo.wiermann@gmail.com"]
   gem.description   = %q{Licensario SDK}
   gem.summary       = %q{Licensario SDK}
-  gem.homepage      = "www.licensario.com"
+  gem.homepage      = "http://www.licensario.com"
 
   gem.add_development_dependency('rspec')
 
