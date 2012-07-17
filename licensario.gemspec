@@ -8,7 +8,12 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{Licensario SDK}
   gem.homepage      = "http://www.licensario.com"
 
-  gem.add_development_dependency('rspec')
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'factory_girl'
+  gem.add_development_dependency 'guard'
+  gem.add_development_dependency 'shoulda'
+  gem.add_dependency 'rdoc'
+  gem.add_dependency 'nokogiri'
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
