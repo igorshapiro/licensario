@@ -4,6 +4,6 @@ require 'nokogiri'
 require 'uri'
 LICENSARIO_PATH = File.dirname(__FILE__) + '/licensario/'
 
-['api'].each do |req|
+['api','user','license', 'licensed_resource'].each do |req|
   require LICENSARIO_PATH + req
 end

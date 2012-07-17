@@ -15,16 +15,12 @@ describe Licensario do
   end
 
   it 'checks the API heartbeat' do
-    pending 'Implement in the Server'
-    #status = @api.check_server_status
-    #status.should eq('OK')
   end
 
   it 'Ensures the existence of an external user' do
     res = @api.ensure_external_user_exists('1', 'some@user.net')
     (res['body'] =~ /^\s*$/).should eq(0)
     res['status'].should eq('200')
-
   end
 
   it 'Retrieves the User Licenses' do
