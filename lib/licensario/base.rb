@@ -7,6 +7,7 @@ module Licensario
   class Base
 
     @@api = nil
+    @@date_format = "%Y%m%d%H%M%S"
 
     def initialize(attributes = {})
       @attributes = attributes
@@ -26,6 +27,10 @@ module Licensario
 
     def self.api
       @@api
+    end
+
+    def self.date_format
+      @@date_format
     end
 
   end
