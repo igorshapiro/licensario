@@ -1,7 +1,7 @@
 ##
 # User Class
 module Licensario
-  class User #< Licensario::BasicResource
+  class User < Licensario::Base
 
     attr_accessor :api, :external_user_id, :licensario_user_id, :email
 
