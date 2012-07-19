@@ -25,13 +25,19 @@ base API class which you need to configure before start working. These are the s
 
 1. **Configure**: first you need to setup your connection to Licensario's API server. You can do so by:
 
-        config = {}  
-        config[:key] = "MY_API_KEY"  
-        config[:secret] = "MY_API_SECRET"  
-        Licensario::Base.establish_connection(config)  
+        Licensario::Base.establish_connection(key: "MY_API_KEY" , secret: "MY_API_SECRET" )  
 
 2. **Use**: now you can start playing with Licensario's interface classes. This gem provides you with four 
-public accessible ones: *Licensario::User*, *Licensario::License*, *Licensario::LicensedResource* and *Licensario::LicensedFeature*.
+public accessible ones: *Licensario::User*, *Licensario::License*, *Licensario::LicensedResource* and *Licensario::LicensedFeature*. 
+You can now do cool things like:
+
+        # Initialize an User
+        user = Licensario::Base.new(external_user_id: 1, email: 'some@user.net')
+
+        # Retrieve this user's Licenses
+        feature_ids = [1..100]
+        payment_plan_ids = [1..100]
+        licenses = user.get_licenses(feature_ids, payment_plan_ids)
 
 ## Contributing
 
