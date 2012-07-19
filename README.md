@@ -1,8 +1,10 @@
 # Licensario
 
-TODO: Write a gem description
+This gem provides an easy way to integrate Licensario's API with you awesome Ruby application.
 
 ## Installation
+
+If you are working with Rails or any Bundler-enabled applications, you just have to:
 
 Add this line to your application's Gemfile:
 
@@ -18,7 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem provides you with a couple of resource classes that you can use in your applications, coupled with a 
+base API class which you need to configure before start working. These are the steps you need to follow:
+
+1. **Configure**: first you need to setup your connection to Licensario's API server. You can do so by
+
+asdas
+asdas
+
+adas
 
 ## Contributing
 
