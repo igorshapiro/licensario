@@ -50,7 +50,7 @@ You can now do cool things like:
         # Create a new License for this User
         new_license = user.create_license(payment_plan_id)
 
-3. **Rock'n'Roll'**: Now that you have the hang of it, be sure to take a look at the [RDocs](docs/index.html) for more detailed information 
+3. **Rock'n'Roll'**: Now that you have the hang of it, be sure to take a look at the [RDocs](licensario/docs/index.html) for more detailed information 
 on the finer aspects of the gem. Don't worry, we made sure to make it super easy to get you up and running in no time.
 
 *Good luck!*
