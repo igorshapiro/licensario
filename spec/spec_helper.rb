@@ -21,4 +21,16 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+
+  # Setup the connection with Licensario's API Server
+  config.before(:suite) do
+    key = "db886331e9105fc19dc9fd6df2caebab9f112c3c81877ea3a3bfcfe3076aa77d"
+    secret = "5545981d57eb3244e857d561946f4ee312023000da1b9f6b86ab017ee48e5c2d"
+    Licensario::Base.establish_connection(
+      key: key,
+      secret: secret
+    )
+  end
+
 end

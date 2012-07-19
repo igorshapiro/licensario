@@ -2,6 +2,23 @@ require 'spec_helper'
 
 describe Licensario do
 
+  it 'tests a common workflow' do
+    user_params = {
+      external_user_id: '1',
+      email: 'some@user.net'
+    }
+    payment_plan_id = 'FREE_PLANca1b8f4ead'
+    feature_id = 'MANAGE_TOD5533de505b'  
+    user = Licensario::User.new(user_params)
+    license = user.ensure_has_license(payment_plan_id)
+    license.should_not be_nil
+    licenses = user.get_licenses([feature_id],[payment_plan_id])   
+    feature_amount = user.get_available_feature_amount(feature_id, payment_plan_id)
+    user.increment_feature_usage(1, feature_id, payment_plan_id)
+    new_feature_amount = user.get_available_feature_amount(feature_id, payment_plan_id)
+    ( feature_amount - new_feature_amount ).should eq(1)
+  end
+
   describe Licensario::User do
   end
 
@@ -12,30 +29,16 @@ describe Licensario do
   end
 
   describe Licensario::API do
-   let(:api) do
-     key = 'db886331e9105fc19dc9fd6df2caebab9f112c3c81877ea3a3bfcfe3076aa77d'
-     secret = '5545981d57eb3244e857d561946f4ee312023000da1b9f6b86ab017ee48e5c2d'
-     Licensario::API.new(key,secret)
-   end
 
     it 'checks the API heartbeat' do
     end
   
     it 'Ensures the existence of an external user' do
-      res = api.ensure_external_user_exists('1', 'some@user.net')
+      res = Licensario::Base.api.ensure_external_user_exists('1', 'some@user.net')
       (res[:body] =~ /^\s*$/).should eq(0)
-      res[status].should eq('200')
+      res[:status].should eq(200)
     end
   
-    it 'Checks a common Workflow' do
-      ppid = "FREE_PLANca1b8f4ead"
-      fid = "MANAGE_TOD5533de505b"
-      user_id = '1'
-      user_email = 'some@user.net'
-      api.get_external_user(user_id, user_email)
-    end
-  
-
   end
 
 end

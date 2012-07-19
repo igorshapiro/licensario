@@ -1,5 +1,8 @@
+# encoding: utf-8
+
 ##
-# Basic Resource Class
+# Base Licensario Class, responsible for low-level communications and centralized API connection managament
+
 module Licensario
   class Base
 
@@ -12,8 +15,17 @@ module Licensario
       end
     end
 
-    def establish_connection(key, secret, base_url = 'users.licensario.com', use_ssl = true)
-      @@api = Licensario::API.new(key, secret, base_url, use_ssl)
+    # Establish a common connection for all Licensario operations
+    def self.establish_connection(options = {})
+      @options = {
+        base_url: 'users.licensario.com',
+        use_ssl: true
+      }.merge(options)
+      @@api = Licensario::API.new(@options[:key], @options[:secret], @options[:base_url], @options[:use_ssl])
+    end
+
+    def self.api
+      @@api
     end
 
   end

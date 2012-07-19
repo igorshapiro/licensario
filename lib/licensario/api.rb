@@ -19,6 +19,7 @@ module Licensario
       begin
         uri = URI.parse(request_url(resource))
         uri.query = URI.encode_www_form(params) if !params.empty? and method == :get
+        puts "#{method} - #{uri.request_uri}"
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = @use_ssl
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @use_ssl
@@ -39,7 +40,7 @@ module Licensario
         request['LCNS_DISABLE_SIGN'] = 'true'
         request.set_form_data(params) if !params.empty? and [:post,:put].include?(method)
         response = http.request(request)
-        return { body: response.body, status: response.code }
+        return { body: response.body, status: response.code.to_i }
       rescue
         return { body: nil, status: nil }
       end

@@ -1,13 +1,7 @@
 ##
 # License Class
 module Licensario
-  class License
-
-    def initialize(xml)
-    end
-
-    def to_s
-    end
-
+  class License < Licensario::Base
+    attr_accessor :id, :user_id, :payment_plan_id, :issue_date_utc, :expiration_date_utc, :is_trial
   end
 end
