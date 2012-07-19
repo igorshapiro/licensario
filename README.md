@@ -23,7 +23,7 @@ Or install it yourself as:
 This gem provides you with a couple of resource classes that you can use in your applications, coupled with a 
 base API class which you need to configure before start working. These are the steps you need to follow:
 
-1. **Configure**: first you need to setup your connection to Licensario's API server. You can do so by
+1. **Configure**: first you need to setup your connection to Licensario's API server. You can do so by:
 
     config = {}  
     config[:key] = "MY_API_KEY"  
