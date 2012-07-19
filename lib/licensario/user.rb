@@ -1,15 +1,22 @@
 ##
 # User Class
 module Licensario
-  class User
+  class User #< Licensario::BasicResource
 
-    def initialize(api, external_user_id = nil, licensario_user_id = nil, email = nil )
-    end
+    attr_accessor :api, :external_user_id, :licensario_user_id, :email
 
     def build_url(suffix)
+      url = "/api/v1"
+      if @external_user_id
+        url += "/users/external" + @external_user_id.to_s + suffix
+      else
+        url += "/users/external" + @licensario_user_id.to_s + suffix
+      end
+      return url
     end
   
     def ensure_has_license(payment_plan_id)
+      @api.do_request(:put, build_url('/licenses'), { 'paymentPlanId' => payment_plan_id })
     end
 
     def get_licenses(feature_ids = nil, payment_plan_ids = nil)

@@ -16,31 +16,33 @@ module Licensario
 
     # Executes the actual request with the API server and processes the response
     def do_request(method, resource, params = {})
-      url = request_url(resource)
-      puts "Requesting " + url
-      uri = URI.parse(url)
-      uri.query = URI.encode_www_form(params) if !params.empty? and method == :get
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = @use_ssl
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @use_ssl
-      case method
-      when :post
-        req_class = Net::HTTP::Post
-      when :get
-        req_class = Net::HTTP::Get
-      when :put
-        req_class = Net::HTTP::Put
-      when :delete
-        req_class = Net::HTTP::Delete
+      begin
+        uri = URI.parse(request_url(resource))
+        uri.query = URI.encode_www_form(params) if !params.empty? and method == :get
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = @use_ssl
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE if @use_ssl
+        case method
+        when :post
+          req_class = Net::HTTP::Post
+        when :get
+          req_class = Net::HTTP::Get
+        when :put
+          req_class = Net::HTTP::Put
+        when :delete
+          req_class = Net::HTTP::Delete
+        end
+        request = req_class.new(uri.request_uri)
+        request.content_type = "application/x-www-form-urlencoded"
+        request['ISV_API_KEY'] = @key
+        request['ISV_API_SECRET'] = @secret
+        request['LCNS_DISABLE_SIGN'] = 'true'
+        request.set_form_data(params) if !params.empty? and [:post,:put].include?(method)
+        response = http.request(request)
+        return { body: response.body, status: response.code }
+      rescue
+        return { body: nil, status: nil }
       end
-      request = req_class.new(uri.request_uri)
-      request.content_type = "application/x-www-form-urlencoded"
-      request['ISV_API_KEY'] = @key
-      request['ISV_API_SECRET'] = @secret
-      request['LCNS_DISABLE_SIGN'] = 'true'
-      request.set_form_data(params) if !params.empty? and [:post,:put].include?(method)
-      response = http.request(request)
-      return { 'body' => response.body, 'status' => response.code }
     end
 
     # Checks the API Server Status - TODO
@@ -49,14 +51,22 @@ module Licensario
       return 'OK'
     end
 
-    # Ensures the existence of an external user 
-    def ensure_external_user_exists(external_user_id, email)
-      do_request(:put, "/api/v1/users/external/#{external_user_id}", { 'email' => email })
+    # Gets an External User
+    def get_external_user(user_id, user_email)
+      res = ensure_external_user_exists(user_id, user_email)
+      params = res[:body]
+      if params
+        user = Licensario::User.new(params)
+        user.api = self
+        return user
+      else
+        return nil
+      end
     end
 
-    # Gets an External User - TODO
-    def get_external_user_from_request(request)
-      ensure_external_user_exists(request.user.id, request.user.email)
+    # Ensures the existence of an external user 
+    def ensure_external_user_exists(external_user_id, email)
+      do_request(:put, "/api/v1/users/external/#{external_user_id}", { email: email })
     end
 
     # Checks the Resource Availability
@@ -67,12 +77,6 @@ module Licensario
       url += "&amount=" + amount
       url += "&operation=" + operation
       do_request(:get, url)
-    end
-
-    # Retrieves the Licenses for a given External User
-    def user_licenses(user_id, external_user_id)
-      url = "/api/users/ActiveLicenses?userId=" + user_id + "&externalUserId=" + external_user_id
-      xml_string = do_request(:get, url)
     end
 
   end
