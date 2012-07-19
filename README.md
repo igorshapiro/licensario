@@ -25,10 +25,10 @@ base API class which you need to configure before start working. These are the s
 
 1. **Configure**: first you need to setup your connection to Licensario's API server. You can do so by
 
-    config = {}
-    config[:key] = "MY_API_KEY"
-    config[:secret] = "MY_API_SECRET"
-    Licensario::Base.establish_connection(config)
+    config = {}  
+    config[:key] = "MY_API_KEY"  
+    config[:secret] = "MY_API_SECRET"  
+    Licensario::Base.establish_connection(config)  
 
 2. **Use**: now you can start playing with Licensario's interface classes. This gem provides you with four 
 public accessible ones: *Licensario::User*, *Licensario::License*, *Licensario::LicensedResource* and *Licensario::LicensedFeature*.
