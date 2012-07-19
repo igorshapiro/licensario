@@ -19,9 +19,14 @@ module Licensario
           attributes[k] = xml_attrs[v] ? xml_attrs[v].value : nil
         end
         attributes[:included_resources] = []
-        xml_node.xpath("//resources").each do |rnode|
-          resource = Licensario::LicensedResource.new(xml_node: rnode)
+        xml_node.xpath("//resources/resource").each do |node|
+          resource = Licensario::LicensedResource.new(xml_node: node)
           attributes[:included_resources] << resource
+        end
+        attributes[:included_features] = []
+        xml_node.xpath("//features/feature").each do |node|
+          feature = Licensario::LicensedFeature.new(xml_node: node)
+          attributes[:included_features] << feature
         end
         attributes.delete(:xml_node)
         attributes.delete(:xml)

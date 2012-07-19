@@ -16,7 +16,9 @@ module Licensario
           type: 'type'
         }.each do |k,v|
           attributes[k] = xml_attrs[v] ? xml_attrs[v].value : nil
-        end      
+        end  
+        attributes.delete(:xml_node)
+        attributes.delete(:xml)    
       end
       super(attributes)
     end
