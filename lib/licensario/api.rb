@@ -56,13 +56,9 @@ module Licensario
     def get_external_user(user_id, user_email)
       res = ensure_external_user_exists(user_id, user_email)
       params = res[:body]
-      if params
-        user = Licensario::User.new(params)
-        user.api = self
-        return user
-      else
-        return nil
-      end
+      user = Licensario::User.new(params)
+      user.api = self
+      return user
     end
 
     # Ensures the existence of an external user 
@@ -78,6 +74,18 @@ module Licensario
       url += "&amount=" + amount
       url += "&operation=" + operation
       do_request(:get, url)
+    end
+
+    # Checks if Resource can be incremented
+    def can_increment_resource?(user_id, external_user_id, resource_id, amount)
+      res = resource_available?(user_id, external_user_id, resource_id, amount, "increment")
+      return (res[:body] =~ /yes/ or res[:body] =~ /true/) != nil
+    end
+
+    # Checks if Resource can be setted
+    def can_set_resource?(user_id, external_user_id, resource_id, amount)
+      res = resource_available?(user_id, external_user_id, resource_id, amount, "set")
+      return (res[:body] =~ /yes/ or res[:body] =~ /true/) != nil
     end
 
   end
